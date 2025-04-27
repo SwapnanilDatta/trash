@@ -1,0 +1,382 @@
+Half Adder
+1. Implementation of Half Adder in  Dataflow Model
+VHDL Code:
+entity half_adder is
+    Port ( A : in STD_LOGIC;
+           B : in STD_LOGIC;
+           S : out STD_LOGIC;
+           C : out STD_LOGIC);
+end half_adder;
+
+architecture Dataflow of half_adder is
+begin
+S<= A xor B;
+C<=A and B;
+end Dataflow;
+
+Schematic:
+ 
+
+TBW Code:
+entity half_adder_tb is
+--  Port ( );
+end half_adder_tb;
+
+architecture Dataflow of half_adder_tb is
+component half_adder is
+Port ( A : in STD_LOGIC;
+       B : in STD_LOGIC;
+       S : out STD_LOGIC;
+       C : out STD_LOGIC);
+end component;
+signal A1:STD_LOGIC:='0';
+signal B1:STD_LOGIC:='0';
+signal S1:STD_LOGIC;
+signal C1:STD_LOGIC;
+begin
+uut:half_adder port map(A=>A1,B=>B1,S=>S1,C=>C1);
+stim_proc:process
+begin
+wait for 100 ns;
+A1<='0';
+B1<='1';
+wait for 100 ns;
+A1<='1';
+B1<='0';
+wait for 100 ns;
+A1<='1';
+B1<='1';
+wait;	
+end process;
+end Dataflow;
+ 
+
+
+2. Implementation of Half Adder in Behavioral model
+VHDL Code:
+entity half_adder_bv is
+    Port ( A : in STD_LOGIC;
+           B : in STD_LOGIC;
+           S : out STD_LOGIC;
+           C : out STD_LOGIC);
+end half_adder_bv;
+architecture Behavioral of half_adder_bv is
+begin
+process(A,B)
+begin
+if(A=B) then
+    S<='0';
+else
+    S<='1';
+end if;
+if(A='1' and B='1') then
+    C<='1';
+else
+    C<='0';
+end if;
+end process;
+end Behavioral;
+
+Schematic:
+ 
+TBW Code:
+entity half_adder_bv_tb is
+--  Port ( );
+end half_adder_bv_tb;
+
+architecture Behavioral of half_adder_bv_tb is
+component half_adder_bv is
+Port ( A : in STD_LOGIC;
+       B : in STD_LOGIC;
+       S : out STD_LOGIC;
+       C : out STD_LOGIC);
+end component;
+signal A1:STD_LOGIC:='0';
+signal B1:STD_LOGIC:='0';
+signal S1:STD_LOGIC;
+signal C1:STD_LOGIC;
+begin
+uut:half_adder_bv port map(A=>A1,B=>B1,S=>S1,C=>C1);
+stim_proc:process
+begin
+wait for 100 ns;
+A1<='0';
+B1<='1';
+wait for 100 ns;
+A1<='1';
+B1<='0';
+wait for 100 ns;
+A1<='1';
+B1<='1';
+wait;	
+end process;
+end Behavioral;
+ 
+
+
+
+Full Adder
+1. Implementation of Full Adder in Dataflow Model
+VHDL Code:
+entity full_adder_df is
+    Port ( A : in STD_LOGIC;
+           B : in STD_LOGIC;
+           C : in STD_LOGIC;
+           Sum : out STD_LOGIC;
+           Carry : out STD_LOGIC);
+end full_adder_df;
+architecture Dataflow of full_adder_df is
+begin
+Sum<= A xor B xor C;
+Carry<=(A and B)or(B and C)or(C and A);
+end Dataflow;
+Schematic:
+ 
+TBW Code:
+entity full_adder_df_tb is
+--  Port ( );
+end full_adder_df_tb;
+
+architecture Dataflow of full_adder_df_tb is
+component full_adder_df is
+Port ( A : in STD_LOGIC;
+       B : in STD_LOGIC;
+       C : in STD_LOGIC;
+       Sum : out STD_LOGIC;
+       Carry : out STD_LOGIC);
+end component;
+signal A1:STD_LOGIC:='0';
+signal B1:STD_LOGIC:='0';
+signal C1:STD_LOGIC:='0';
+signal Sum1:STD_LOGIC;
+signal Carry1:STD_LOGIC;
+begin
+uut:full_adder_df port map(A=>A1,B=>B1,C=>C1,Sum=>Sum1,Carry=>Carry1);
+stim_proc:process
+begin
+wait for 50 ns;
+A1<='0';
+B1<='0';
+C1<='1';
+wait for 50 ns;
+A1<='0';
+B1<='1';
+C1<='0';
+wait for 50 ns;
+A1<='0';
+B1<='1';
+C1<='1';
+wait for 50 ns;
+A1<='1';
+B1<='0';
+C1<='0';
+wait for 50 ns;
+A1<='1';
+B1<='0';
+C1<='1';
+wait for 50 ns;
+A1<='1';
+B1<='1';
+C1<='0';
+wait for 50 ns;
+A1<='1';
+B1<='1';
+C1<='1';
+wait;	
+end process;
+end Dataflow;
+ 
+
+
+
+
+2. Implementation of Full Adder in Behavioral Model
+VHDL Code:
+entity full_adder_bv is
+    Port ( A : in STD_LOGIC;
+           B : in STD_LOGIC;
+           C : in STD_LOGIC;
+           Sum : out STD_LOGIC;
+           Carry : out STD_LOGIC);
+end full_adder_bv;
+architecture Behavioral of full_adder_bv is
+begin
+process(A,B,C)
+begin
+if(A='0') then
+    if(B=C) then
+        Sum<='0';
+    else
+        Sum<='1';
+    end if;
+else
+    if(B=C) then
+        Sum<='1';
+    else
+        Sum<='0';
+    end if;
+end if;
+if(A='0') then
+    if(B='1' and C='1') then
+        Carry<='1';
+    else
+        Carry<='0';
+    end if;
+else
+    if(B='0' and C='0') then
+        Carry<='0';
+    else
+        Carry<='1';
+    end if;
+end if;
+end process;
+end Behavioral;
+
+Schematic:
+ 
+
+TBW Code:
+entity full_adder_bv_tb is
+--  Port ( );
+end full_adder_bv_tb;
+
+architecture Behavioral of full_adder_bv_tb is
+component full_adder_bv is
+Port ( A : in STD_LOGIC;
+       B : in STD_LOGIC;
+       C : in STD_LOGIC;
+       Sum : out STD_LOGIC;
+       Carry : out STD_LOGIC);
+end component;
+signal A1:STD_LOGIC:='0';
+signal B1:STD_LOGIC:='0';
+signal C1:STD_LOGIC:='0';
+signal Sum1:STD_LOGIC;
+signal Carry1:STD_LOGIC;
+begin
+uut:full_adder_bv port map(A=>A1,B=>B1,C=>C1,Sum=>Sum1,Carry=>Carry1);
+stim_proc:process
+begin
+wait for 50 ns;
+A1<='0';
+B1<='0';
+C1<='1';
+wait for 50 ns;
+A1<='0';
+B1<='1';
+C1<='0';
+wait for 50 ns;
+A1<='0';
+B1<='1';
+C1<='1';
+wait for 50 ns;
+A1<='1';
+B1<='0';
+C1<='0';
+wait for 50 ns;
+A1<='1';
+B1<='0';
+C1<='1';
+wait for 50 ns;
+A1<='1';
+B1<='1';
+C1<='0';
+wait for 50 ns;
+A1<='1';
+B1<='1';
+C1<='1';
+wait;	
+end process; 
+end Behavioral; 
+ 
+
+
+3. Implementation of Full Adder in Structural Model
+VHDL Code:
+entity full_adder_struc is
+    Port ( A : in STD_LOGIC;
+           B : in STD_LOGIC;
+           C : in STD_LOGIC;
+           Sum : out STD_LOGIC;
+           Carry : out STD_LOGIC);
+end full_adder_struc;
+architecture Structural of full_adder_struc is
+component half_adder is
+    Port ( A : in STD_LOGIC;
+           B : in STD_LOGIC;
+           S : out STD_LOGIC;
+           C : out STD_LOGIC);
+end component;
+component or_d is
+    Port ( A : in STD_LOGIC;
+           B : in STD_LOGIC;
+           Y : out STD_LOGIC);
+end component;
+signal C1,C2,S1:STD_LOGIC;
+begin
+L1:half_adder port map(A,B,S1,C1);
+L2:half_adder port map(S1,C,Sum,C2);
+L3:or_d port map(C1,C2,Carry);
+end Structural;
+
+Schematic:
+ 
+TBW Code:
+entity full_adder_struc_tb is
+--  Port ( );
+end full_adder_struc_tb;
+
+architecture Structural of full_adder_struc_tb is
+component full_adder_struc is
+Port ( A : in STD_LOGIC;
+       B : in STD_LOGIC;
+       C : in STD_LOGIC;
+       Sum : out STD_LOGIC;
+       Carry : out STD_LOGIC);
+end component;
+signal A1:STD_LOGIC:='0';
+signal B1:STD_LOGIC:='0';
+signal C1:STD_LOGIC:='0';
+signal Sum1:STD_LOGIC;
+signal Carry1:STD_LOGIC;
+begin
+uut:full_adder_struc port map(A=>A1,B=>B1,C=>C1,Sum=>Sum1,Carry=>Carry1);
+stim_proc:process
+begin
+wait for 50 ns;
+A1<='0';
+B1<='0';
+C1<='1';
+wait for 50 ns;
+A1<='0';
+B1<='1';
+C1<='0';
+wait for 50 ns;
+A1<='0';
+B1<='1';
+C1<='1';
+wait for 50 ns;
+A1<='1';
+B1<='0';
+C1<='0';
+wait for 50 ns;
+A1<='1';
+B1<='0';
+C1<='1';
+wait for 50 ns;
+A1<='1';
+B1<='1';
+C1<='0';
+wait for 50 ns;
+A1<='1';
+B1<='1';
+C1<='1';
+wait;	
+end process;
+end Structural;
+ 
+
+
+
+
+
