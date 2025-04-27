@@ -374,6 +374,75 @@ C1<='1';
 wait;	
 end process;
 end Structural;
+
+
+
+
+
+ALU Behavioral (03/04/2025)
+VHD Code
+entity alu_bv is
+ Port ( a : in unsigned (3 downto 0);
+ b : in unsigned (3 downto 0);
+ ch : in STD_LOGIC_VECTOR (2 downto 0);
+ res : out unsigned (3 downto 0));
+end alu_bv;
+architecture Behavioral of alu_bv is
+begin
+process(a, b, ch)
+begin
+case ch is
+when "000" => res <= a+b;
+when "001" => res <= a-b;
+when "010" => res <= a+1;
+when "011" => res <= a-1;
+when "100" => res <= a and b;
+when "101" => res <= a or b;
+when "110" => res <= not a;
+when "111" => res <= a xor b;
+when others => NULL;
+end case;
+end process;
+end Behavioral;
+
+TEST BENCH CODE
+entity alu_bv_tbw is
+-- Port ( );
+end alu_bv_tbw;
+architecture Behavioral of alu_bv_tbw is
+component alu_bv is
+ Port ( a:in unsigned (3 downto 0);
+ b:in unsigned (3 downto 0);
+ s:in STD_LOGIC_VECTOR (2 downto 0);
+ r:out unsigned (3 downto 0));
+end component;
+Signal a1:unsigned(3 downto 0):="1001";
+Signal b1:unsigned(3 downto 0):="1100";
+Signal sol:STD_LOGIC_VECTOR(2 downto 0):="000";
+Signal r1:unsigned(3 downto 0);
+begin
+uut:alu_bv port map(a=>a1, b=>b1, s=>sol, r=>r1);
+stim_proc: process
+begin
+wait for 100ns;
+sol<="000";
+wait for 100ns;
+sol<="001";
+wait for 100ns;
+sol<="010";
+wait for 100ns;
+sol<="011";
+wait for 100ns;
+sol<="100";
+wait for 100ns;
+sol<="101";
+wait for 100ns;
+sol<="110";
+wait for 100ns;
+sol<="111";
+wait;
+end process;
+end Behavioral;
  
 
 
